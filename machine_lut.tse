@@ -1,0 +1,329 @@
+version = 4.2
+
+//
+// Saved by sw version: 2025.1
+//
+
+model "machine_lut" {
+    configuration {
+        hil_device = "VHIL+"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        reset_analog_outputs_on_sim_stop = True
+        reset_analog_outputs_on_sim_stop_mode = Offset values
+        reset_digital_outputs_on_sim_stop = True
+        vhil_adio_loopback = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0005
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        ground_scope_core = False
+        dss_num_tol = 1e-15
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_term_var_location = "local"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+        tunable_params = "component defined"
+        sp_compiler_type = "C compiler"
+        sig_stim = "off"
+        export_resource_list = ""
+        export_dependency_list = ""
+        excluded_resource_list = ""
+        excluded_component_from_locking_list = ""
+        export_out_file = ""
+        export_lock_top_level = True
+        export_encrypt_library = True
+        export_encrypt_resources = True
+        solver_type = "DAE"
+        integration_method = "BDF"
+        max_sim_step = 1e-4
+        simulation_time = 5
+        abs_tol = 1e-3
+        rel_tol = 1e-3
+        init_sim_step = 1e-6
+        r_on_sw = 1e-3
+        v_on_diode = 0.2
+        data_sampling_rate = 0
+        feedthrough_validation_error_level = error
+    }
+
+    component Subsystem Root {
+        component "core/C function" "C function1" {
+            add_src_path = "machine_lut.h;machine.h"
+            add_src_path_full = "C:\Users\jmmau\workspace\usemac\typhoon\machine_lut\machine_lut.h;C:\Users\jmmau\workspace\usemac\typhoon\machine_lut\machine.h"
+            arb_defs = "/*Begin code section*/
+double x[3] = {0.0,0.0,0.0};
+double z[10] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+/*End code section*/"
+            dll_file_path = "libmachinelut.dll"
+            dll_file_path_full = "C:\Users\jmmau\workspace\usemac\typhoon\machine_lut\libmachinelut.dll"
+            execution_rate = "50e-6"
+            h_file_path = "machine_lut.h"
+            h_file_path_full = "C:\Users\jmmau\workspace\usemac\typhoon\machine_lut\machine_lut.h"
+            init_fnc = "/*Begin code section*/
+
+/*End code section*/"
+            input_terminals = "real v_d;real v_q;real omega_m;"
+            input_terminals_dimensions = "inherit;inherit;inherit"
+            input_terminals_feedthrough = "True;True;True"
+            input_terminals_show_labels = "True;True;True"
+            output_fnc = "/*Begin code section*/
+i_d = z[0];
+i_q = z[1];
+tau_e = z[2];
+theta_deg = z[3];
+
+phi_d = x[0];
+phi_q = x[1];
+/*End code section*/"
+            output_terminals = "real i_d;real i_q;real tau_e;inherit phi_d;inherit phi_q;inherit theta_deg;"
+            output_terminals_dimensions = "inherit;inherit;inherit;inherit;inherit;inherit"
+            output_terminals_feedthrough = "True;True;True;True;True;True"
+            output_terminals_show_labels = "True;True;True;True;True;True"
+            update_fnc = "/*Begin code section*/
+machine_update(v_d,v_q,omega_m, x, z, 50e-6);
+/*End code section*/"
+        }
+        [
+            position = 7648, 7868
+            size = 112, 184
+        ]
+
+        component "core/Constant" Constant1 {
+            execution_rate = "50e-6"
+            value = "10"
+        }
+        [
+            position = 7520, 7796
+        ]
+
+        component "core/Probe" i_d {
+        }
+        [
+            position = 8040, 7800
+        ]
+
+        component "core/Scope" Scope1 {
+            selected_signals = "[\'i_d\', \'i_q\', \'phi_d\', \'phi_q\']"
+            signals_data = "{\"signals\": {\"i_d\": {\"viewports\": [1], \"type\": \"analog\", \"color\": {\"1\": \"#FF0000\"}, \"display\": {\"1\": \"solid\"}}, \"i_q\": {\"viewports\": [1], \"type\": \"analog\", \"color\": {\"1\": \"#00CC00\"}, \"display\": {\"1\": \"solid\"}}, \"phi_d\": {\"viewports\": [2], \"type\": \"analog\", \"color\": {\"2\": \"#FF0000\"}, \"display\": {\"2\": \"solid\"}}, \"phi_q\": {\"viewports\": [2], \"type\": \"analog\", \"color\": {\"2\": \"#00CC00\"}, \"display\": {\"2\": \"solid\"}}}, \"viewports\": {\"1\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"2\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"3\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"4\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}}, \"plot_settings\": {\"layout\": \"Vertical\", \"background_color\": \"white\", \"legend_visible\": true}}"
+        }
+        [
+            position = 8416, 7876
+        ]
+
+        component "core/Probe" i_q {
+        }
+        [
+            position = 7996, 7828
+        ]
+
+        component "core/Probe" tau_e {
+        }
+        [
+            position = 7968, 7868
+        ]
+
+        component "core/Scope" Scope2 {
+            selected_signals = "[\'tau_e\', \'omega_m\', \'theta_deg\']"
+            signals_data = "{\"signals\": {\"tau_e\": {\"viewports\": [1], \"type\": \"analog\", \"color\": {\"1\": \"#FF0000\"}, \"display\": {\"1\": \"solid\"}}, \"omega_m\": {\"viewports\": [2], \"type\": \"analog\", \"color\": {\"2\": \"#FF0000\"}, \"display\": {\"2\": \"solid\"}}, \"theta_deg\": {\"viewports\": [3], \"type\": \"analog\", \"color\": {\"3\": \"#FF0000\"}, \"display\": {\"3\": \"solid\"}}}, \"viewports\": {\"1\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"2\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"3\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}, \"4\": {\"log_scale_x\": false, \"log_scale_y\": false, \"y_axis_db\": false}}, \"plot_settings\": {\"layout\": \"Vertical\", \"background_color\": \"white\", \"legend_visible\": true}}"
+        }
+        [
+            position = 8416, 7984
+        ]
+
+        component "core/C function" "C function2" {
+            arb_defs = "/*Begin code section*/
+
+/*End code section*/"
+            execution_rate = "50e-6"
+            global_variables = "real omega;"
+            init_fnc = "/*Begin code section*/
+
+/*End code section*/"
+            input_terminals = "real tau_r;"
+            input_terminals_dimensions = "inherit"
+            input_terminals_feedthrough = "True"
+            input_terminals_show_labels = "True"
+            output_fnc = "/*Begin code section*/
+omega_r = omega;
+/*End code section*/"
+            output_terminals = "real omega_r;"
+            output_terminals_dimensions = "inherit"
+            output_terminals_feedthrough = "True"
+            output_terminals_show_labels = "True"
+            update_fnc = "/*Begin code section*/
+omega += 50e-6*1/200*(tau_r - 100*omega);
+/*End code section*/"
+        }
+        [
+            position = 7980, 8032
+            size = 136, 48
+        ]
+
+        component "core/Constant" Constant2 {
+            execution_rate = "50e-6"
+            value = "5"
+        }
+        [
+            position = 7520, 7868
+        ]
+
+        component "core/Unit Delay" "Unit Delay1" {
+        }
+        [
+            position = 8104, 8032
+        ]
+
+        component "core/Probe" omega_m {
+        }
+        [
+            position = 8240, 8044
+        ]
+
+        component "core/Probe" phi_d {
+        }
+        [
+            position = 7820, 7892
+        ]
+
+        component "core/Probe" phi_q {
+        }
+        [
+            position = 7756, 7904
+        ]
+
+        component "core/Probe" theta_deg {
+        }
+        [
+            position = 7792, 8020
+        ]
+
+        junction Junction1 sp
+        [
+            position = 7896, 7868
+        ]
+
+        junction Junction2 sp
+        [
+            position = 8168, 8044
+        ]
+
+        connect Constant1.out "C function1.v_d" as Connection1
+        connect "C function1.i_d" i_d.in as Connection2
+        connect i_q.in "C function1.i_q" as Connection3
+        connect tau_e.in Junction1 as Connection5
+        connect Junction1 "C function1.tau_e" as Connection6
+        connect "C function2.tau_r" Junction1 as Connection7
+        connect Constant2.out "C function1.v_q" as Connection9
+        connect "C function2.omega_r" "Unit Delay1.in" as Connection10
+        connect "Unit Delay1.out" Junction2 as Connection12
+        [
+            breakpoints = 8168, 8032
+        ]
+        connect Junction2 "C function1.omega_m" as Connection13
+        [
+            breakpoints = 7496, 8120; 7496, 7940
+        ]
+        connect omega_m.in Junction2 as Connection14
+        connect "C function1.phi_d" phi_d.in as Connection15
+        connect "C function1.phi_q" phi_q.in as Connection16
+        connect theta_deg.in "C function1.theta_deg" as Connection17
+    }
+
+    default {
+        "core/C function" {
+            input_terminals = "real in;"
+            input_terminals_show_labels = "False;"
+            input_terminals_feedthrough = "True;"
+            input_terminals_dimensions = "inherit;"
+            output_terminals = "real out;"
+            output_terminals_show_labels = "False;"
+            output_terminals_feedthrough = "True;"
+            output_terminals_dimensions = "inherit;"
+            output_fnc = ""
+            update_fnc = ""
+            init_fnc = ""
+            global_variables = ""
+            parameters = ""
+            library_load_type = "Compile-time load"
+            dll_file_path = ""
+            dll_file_path_full = ""
+            arm_a9_file_path = ""
+            arm_a9_file_path_full = ""
+            arm_a53_file_path = ""
+            arm_a53_file_path_full = ""
+            h_file_path = ""
+            h_file_path_full = ""
+            add_src_path = ""
+            add_src_path_full = ""
+            convert_to_relative_dll = "True"
+            convert_to_relative_a = "True"
+            convert_to_relative_src = "True"
+            arb_defs = ""
+            add_macros = ""
+            skip_pre_cmpl_check = "False"
+            generate_for_hil = "True"
+            execution_rate = "inherit"
+            _supported_platforms = "[\'generic\']"
+            refresh = "refresh"
+        }
+
+        "core/Constant" {
+            value = "1"
+            signal_type = "real"
+            execution_rate = "100e-6"
+            _tunable = "False"
+        }
+
+        "core/Probe" {
+            signal_access = "inherit"
+            addr = "0"
+            override_signal_name = "False"
+            signal_name = ""
+            signal_type = "generic"
+            streaming_en = "False"
+            streaming_er_idx = "0"
+            execution_rate = "inherit"
+        }
+
+        "core/Scope" {
+            signals_data = "{}"
+            selected_signals = "[]"
+        }
+
+        "core/Unit Delay" {
+            init_value = "0"
+            signal_out_type = "inherit"
+            execution_rate = "inherit"
+        }
+    }
+}
