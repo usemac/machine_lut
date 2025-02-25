@@ -220,7 +220,9 @@ double interp3(double x, double y, double z, double *xVec, int xVec_n, double *y
 int find_lower_than(double* arr_in, int* arr_out, double x, int n){
 
     int pointer = 0;
-    for (int i = 0; i < n; i++) {
+    int i = 0;
+
+    for (i = 0; i < n; i++) {
         if (arr_in[i] <= x){
             arr_out[pointer] = i;
             pointer++;
